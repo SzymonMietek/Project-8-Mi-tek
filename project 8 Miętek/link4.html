@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+ <style>
+
+ .table {
+float:none;
+ 
+  border-collapse: collapse;
+}
+ .row {
+  display: table-row;
+}
+ .cell {
+  display: table-cell;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+ .row:nth-child(even) {
+  background-color: #f2f2f2;
+}
+ .row:hover {
+  background-color: #ddd;
+}
+ h2 {
+  text-align: center;
+}
+ input[type="text"],
+ select {
+ 
+  padding: 8px;
+  margin: 5px 0;
+  box-sizing: border-box;
+}
+input[type="button"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+}
+ input[type="button"]:hover {
+  background-color: #45a049;
+}
+ input[type="radio"],
+ input[type="checkbox"] {
+}
+ </style>
+    <h1> Tableless Table</h1>
+    <div class="table">
+      <div class="row">
+        <div class="cell">First name</div>
+        <div class="cell">
+          <input type="text" id="fname4" name="fname4" value=""><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell">Last name</div>
+        <div class="cell">
+          <input type="text" id="surname4" name="surname4" value=""><br><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell">Age</div>
+        <div class="cell">
+          <select id="age4" name="age4">
+            <option value="less than 18">less than 18</option>
+            <option value="plus 40">plus 40</option>
+            <option value="plus 70">plus 70</option>
+          </select><br><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell">Sex</div>
+        <div class="cell">
+          <input type="radio"  name="sex4" value="Male">Male
+          <input type="radio"  name="sex4" value="Female">Female
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell">Hobby</div>
+        <div class="cell">
+          <input type="checkbox"  name="hobby4[]" value="Judo">Judo
+          <input type="checkbox"  name="hobby4[]" value="Hiking">Hiking
+          <input type="checkbox"  name="hobby4[]" value="Football">Football
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell">
+          <input type="button" value="OK" onclick="showResults4()">
+        </div>
+        <div class="cell">
+          <input type="button" value="Cancel">
+        </div>
+      </div>
+    </div>
+  </div>
+  </html>

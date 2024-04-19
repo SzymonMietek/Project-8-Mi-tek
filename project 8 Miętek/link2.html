@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <div id="outputDiv"></div> 
+</body>
+
+<script>
+  function executeQuickSort() {
+    function generateRandomNumbers(length, min, max) {
+      const randomNumbers = [];
+      for (let i = 0; i < length; i++) {
+        randomNumbers.push(Math.floor(Math.random() * (max - min + 1)) + min);
+      }
+      return randomNumbers;
+    }
+    function quickSort(arr) {
+      if (arr.length <= 1) {
+        return arr;
+      }
+      const pivot = arr[0];
+      const left = [];
+      const right = [];
+      for (let i = 1; i < arr.length; i++) {
+        if (arr[i] < pivot) {
+          left.push(arr[i]);
+        } else {
+          right.push(arr[i]);
+        }
+      }
+      return [...quickSort(left), pivot, ...quickSort(right)];
+    }
+
+    const randomNumbers = generateRandomNumbers(10, -100000, 100000);
+
+    const startTime = performance.now();
+
+    const sortedArray = quickSort(randomNumbers);
+
+    const endTime = performance.now();
+    const timeTaken = endTime - startTime;
+
+    const outputDiv = document.getElementById('outputDiv'); 
+    outputDiv.innerHTML = `
+      <h2>Generated Array:</h2>
+      <pre>${randomNumbers.join(', ')}</pre>
+      <h2>Sorted Array:</h2>
+      <pre>${sortedArray.join(', ')}</pre>
+      <h2>Time taken for sorting (in milliseconds):</h2>
+      <p>${timeTaken}</p>
+    `;
+  }
+
+  
+  executeQuickSort();
+</script>
+
+</html>

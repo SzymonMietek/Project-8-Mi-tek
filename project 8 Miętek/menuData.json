@@ -1,0 +1,6 @@
+[
+    { "id": "link1", "name": "Project 3.1", "iconClass": "fas fa-folder" },
+    { "id": "link2", "name": "Project 3.2", "iconClass": "fas fa-folder" },
+    { "id": "link3", "name": "Project 1", "iconClass": "fas fa-folder" },
+    { "id": "link4", "name": "Project 2", "iconClass": "fas fa-folder" }
+]

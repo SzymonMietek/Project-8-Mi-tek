@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<style>
+.menu {
+    width: 20%; 
+    float: left;
+    background-color: #f0f0f0; 
+}
+.main {
+    width: 70%; 
+    float: left;
+    padding: 20px; 
+}
+ 
+.menu a {
+    display: block; 
+    padding: 10px; 
+    text-decoration: none; 
+    color: blue; 
+}
+.menu a:hover {
+    background-color: green; 
+}
+
+.content {
+    background-color: #fff; 
+    padding: 20px; 
+    display: none;
+
+}
+  .menu a,
+.content h2,
+.sidebar p {
+    color: blue; 
+}
+#link3Content {
+  display: none;
+}
+#myTable,th,td {
+border:1px solid black;
+}
+
+.sidebar {
+    width: 12%; 
+    float: right;
+   
+     top: 119x; 
+    right: 0; 
+    background-color: #f0f0f0;
+    padding: 20px; 
+    box-sizing: border-box;
+   
+}
+ 
+
+@media only screen and (max-width: 600px) {
+ 
+  .menu, .main, .right {
+    width: 100%;
+  }
+   .sidebar {
+        width: 100%; 
+        float: none; 
+        padding: 10px;
+    }
+}
+.navigation-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.nav-button {
+    margin: 0 5px;
+    padding: 10px 20px;
+    background-color: #1a03eb;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.01s;
+}
+
+.nav-button:hover {
+    background-color: green;
+    color: white; /* Change text color on hover */
+}
+
+</style>
+</head>
+<body style="font-family:Verdana;color:blue;">
+<div style="background-color:#e5e5e5;padding:15px;text-align:center;">
+  <h1 id="pageTitle">An Example of Responsive Webpage by Szymon Miętek</h1>
+</div>
+  <div class="menu">
+    <a  onclick="fetchProjectContent('link1')">Project 3.1 Merge Sort </a>
+    <a  onclick="fetchProjectContent('link2')">Project 3.2 Quick Sort</a>
+    <a  onclick="fetchProjectContent('link3')">Project 1</a>
+    <a  onclick="fetchProjectContent('link4')">Project 2</a> 
+  </div>
+<div class="main" id="projectContent">
+</div>
+
+<script>
+function fetchProjectContent(link) {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        document.getElementById("projectContent").innerHTML = xhr.responseText;
+       
+        if (link === 'link1') {
+          executeMergeSort();
+        } else if (link === 'link2') { 
+          executeQuickSort();
+        }
+      } else {
+        console.error('Error fetching project content: ' + xhr.status);
+      }
+    }
+  };
+  xhr.open('GET', link + '.html', true);
+  xhr.send();
+}
+
+function executeMergeSort() {
+  
+  function generateRandomNumbers(length, min, max) {
+    const randomNumbers = [];
+    for (let i = 0; i < length; i++) {
+      randomNumbers.push(Math.floor(Math.random() * (max - min + 1)) + min);
+    }
+    return randomNumbers;
+  }
+  function merge(left, right) {
+    let sortedArr = [];
+    while (left.length && right.length) {
+      if (left[0] < right[0]) {
+        sortedArr.push(left.shift());
+      } else {
+        sortedArr.push(right.shift());
+      }
+    }
+    return [...sortedArr, ...left, ...right];
+  }
+  function mergeSort(arr) {
+    if (arr.length <= 1) {
+      return arr;
+    }
+    const mid = Math.floor(arr.length / 2);
+    const left = arr.slice(0, mid);
+    const right = arr.slice(mid);
+    return merge(mergeSort(left), mergeSort(right));
+  }
+  const randomNumbers = generateRandomNumbers(10, -100000, 100000);
+
+  const startTime = performance.now();
+
+  const sortedArray = mergeSort(randomNumbers);
+
+  const endTime = performance.now();
+  const timeTaken = endTime - startTime;
+
+  const outputDiv = document.getElementById('projectContent');
+  outputDiv.innerHTML = `
+    <h2>Generated Array:</h2>
+    <pre>${randomNumbers.join(', ')}</pre>
+    <h2>Sorted Array:</h2>
+    <pre>${sortedArray.join(', ')}</pre>
+    <h2>Time taken for sorting (in milliseconds):</h2>
+    <p>${timeTaken}</p>
+  `;
+}
+
+function executeQuickSort() {
+ 
+  function generateRandomNumbers(length, min, max) {
+    const randomNumbers = [];
+    for (let i = 0; i < length; i++) {
+      randomNumbers.push(Math.floor(Math.random() * (max - min + 1)) + min);
+    }
+    return randomNumbers;
+  }
+  function quickSort(arr) {
+    if (arr.length <= 1) {
+      return arr;
+    }
+    const pivot = arr[0];
+    const left = [];
+    const right = [];
+    for (let i = 1; i < arr.length; i++) {
+      if (arr[i] < pivot) {
+        left.push(arr[i]);
+      } else {
+        right.push(arr[i]);
+      }
+    }
+    return [...quickSort(left), pivot, ...quickSort(right)];
+  }
+
+  const randomNumbers = generateRandomNumbers(10, -100000, 100000);
+
+  const startTime = performance.now();
+
+  const sortedArray = quickSort(randomNumbers);
+
+const endTime = performance.now();
+const timeTaken = endTime - startTime;
+
+const outputDiv = document.getElementById('outputDiv'); 
+outputDiv.innerHTML = `
+  <h2>Generated Array:</h2>
+  <pre>${randomNumbers.join(', ')}</pre>
+  <h2>Sorted Array:</h2>
+  <pre>${sortedArray.join(', ')}</pre>
+  <h2>Time taken for sorting (in milliseconds):</h2>
+  <p>${timeTaken}</p>
+`;
+}
+
+let currentIndex = 0;
+
+function moveLeft() {
+    if (currentIndex > 0) {
+        currentIndex--; 
+        const link = 'link' + (currentIndex + 1); 
+        fetchProjectContent(link);
+    }
+}
+
+function moveRight() {
+    const maxIndex = 3; 
+    if (currentIndex < maxIndex) {
+        currentIndex++; 
+        const link = 'link' + (currentIndex + 1); 
+        fetchProjectContent(link);
+    }
+}
+
+
+executeQuickSort();
+
+
+
+function showResults() {
+  var firstName = document.getElementById("fname").value;
+  var lastName = document.getElementById("surname").value;
+  var age = document.getElementById("age").value;
+  var sex = document.querySelector('input[name="sex"]:checked') ? document.querySelector('input[name="sex"]:checked').value : "";
+  var hobbies = [];
+  var checkboxes = document.querySelectorAll('input[name="hobby[]"]:checked');
+  checkboxes.forEach(function(checkbox) {
+    hobbies.push(checkbox.value);
+  });
+  var result = "First Name: " + firstName + "\n" +
+               "Last Name: " + lastName + "\n" +
+               "Age: " + age + "\n" +
+               "Sex: " + sex + "\n" +
+               "Hobbies: " + hobbies.join(", ");
+  alert(result);
+}
+function showResults4() {
+  var firstName = document.getElementById("fname4").value;
+  var lastName = document.getElementById("surname4").value;
+  var age = document.getElementById("age4").value;
+  var sex = document.querySelector('input[name="sex4"]:checked') ? document.querySelector('input[name="sex4"]:checked').value : "";
+  var hobbies = [];
+  var checkboxes = document.querySelectorAll('input[name="hobby4[]"]:checked');
+  checkboxes.forEach(function(checkbox) {
+    hobbies.push(checkbox.value);
+  });
+  var result = "First Name: " + firstName + "\n" +
+               "Last Name: " + lastName + "\n" +
+               "Age: " + age + "\n" +
+               "Sex: " + sex + "\n" +
+               "Hobbies: " + hobbies.join(", ");
+  alert(result);
+}
+
+
+</script>
+<div class="navigation-buttons">
+  <button class="nav-arrow" onclick="moveLeft()">&#10094;</button>
+  <button class="nav-button" onclick="fetchProjectContent('link1')">Project 3.1</button>
+  <button class="nav-button" onclick="fetchProjectContent('link2')">Project 3.2</button>
+  <button class="nav-button" onclick="fetchProjectContent('link3')">Project 1</button>
+  <button class="nav-button" onclick="fetchProjectContent('link4')">Project 2</button>
+  <button class="nav-arrow" onclick="moveRight()">&#10095;</button>
+</div>
+<div class="ui-widget">
+  <input id="tags">
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function(){
+    // Menu Effects
+    $(".menu a").hover(function(){
+      $(this).animate({paddingLeft: '80px'}, "fast");
+    }, function(){
+      $(this).animate({paddingLeft: '50px'}, "fast");
+    });
+
+    $(document).ready(function(){
+    function fadeTitle() {
+      $("#pageTitle").fadeIn(1000, function() {
+        $(this).fadeOut(1000, function() {
+          $(this).css("color", "green").fadeIn(1000, function() {
+            $(this).fadeOut(1000, function() {
+              $(this).css("color", "blue");
+              fadeTitle(); // Restart the animation
+            });
+          });
+        });
+      });
+    }
+    
+    fadeTitle(); // Start the fading animation
+  });
+
+    // Additional Hover Effect for Navigation Buttons
+    $(".nav-button").hover(function(){
+      $(this).css("background-color", "#green");
+    }, function(){
+      $(this).css("background-color", "#1a03eb");
+    });
+  });
+  $(document).ready(function(){
+    // Menu button click event
+    $(".menu a").click(function(){
+      // Slide down the title
+      $("#pageTitle").slideDown();
+    });
+  });
+  $(document).ready(function(){
+  // Menu button click event
+  $(".menu a").click(function(){
+    // Get the ID of the clicked menu item
+    var contentId = $(this).attr('data-content');
+    
+    // Fade in the selected project content
+    $("#" + contentId).fadeIn();
+    
+    // Hide other project contents
+    $(".content").not("#" + contentId).hide();
+  });
+});
+$(document).ready(function(){
+  // Menu hover effect
+  $(".menu").hover(function(){
+    $(this).addClass("hovered");
+  }, function(){
+    $(this).removeClass("hovered");
+  });
+});
+$(document).ready(function(){
+  // Additional Hover Effect for Navigation Buttons
+  $(".navigation-buttons").on("mouseenter", ".nav-button", function(){
+    $(this).css("background-color", "green");
+  }).on("mouseleave", ".nav-button", function(){
+    $(this).css("background-color", "#1a03eb");
+  });
+});
+$(document).ready(function(){
+  // Function to apply bounce effect to an element
+  function applyBounceEffect(element) {
+    element.animate({marginTop: '-=20px'}, 200, 'swing')
+           .animate({marginTop: '+=20px'}, 200, 'swing')
+           .animate({marginTop: '-=10px'}, 100, 'swing')
+           .animate({marginTop: '+=10px'}, 100, 'swing');
+  }
+
+  // Menu button click event
+  $(".menu a").click(function(){
+    // Slide down the title
+    $("#pageTitle").slideDown();
+
+    // Apply bounce effect to displayed content
+    applyBounceEffect($("#projectContent"));
+  });
+
+  // Navigation buttons click event
+  $(".nav-button").click(function(){
+    // Apply bounce effect to displayed content
+    applyBounceEffect($("#projectContent"));
+  });
+});
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<style>
+  /* Adjust the position of autocomplete menu */
+  .ui-autocomplete {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #tags {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #01af26;
+            border-radius: 4px;
+        }
+</style>
+
+  <script>
+    $(document).ready(function(){
+      var availableTags = [
+        "Project 3.1 Merge Sort",
+        "Project 3.2 Quick Sort",
+        "Project 1",
+        "Project 2",
+        "Tableless Table",
+        "HTML Table"
+      ];
+    
+      // Initialize autocomplete for the input field
+      $("#tags").autocomplete({
+        source: availableTags
+      });
+    
+      // Handle click event for tags
+      $("#tags").on("autocompleteselect", function(event, ui) {
+        var selectedProject = ui.item.value;
+        var projectId = '';
+    
+        // Determine the project ID based on the selected project
+        switch(selectedProject) {
+          case 'Project 3.1 Merge Sort':
+            projectId = 'link1';
+            break;
+          case 'Project 3.2 Quick Sort':
+            projectId = 'link2';
+            break;
+          case 'Project 1':
+            projectId = 'link3';
+            break;
+          case 'Project 2':
+            projectId = 'link4';
+            break;
+            case "Tableless Table":
+            projectId = 'link4';
+            break;
+            case "HTML Table":
+            projectId = 'link3';
+            break;
+          default:
+            break;
+        }
+    
+        // Fetch the project content
+        fetchProjectContent(projectId);
+      });
+    });
+    </script>
+    <!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head runat="server">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- Include jQuery UI library for autocomplete -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <!-- Include jQuery UI CSS for autocomplete -->
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+        
+        <style>
+            .additional-menu-btn {
+                position: fixed;
+                top: 55%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+            }
+    
+            .additional-menu-btn:hover {
+                background-color: #45a049;
+                box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Additional Menu Button -->
+        <button id="additionalMenuBtn" class="additional-menu-btn">Additional Menu</button>
+    
+        <!-- Menu container -->
+        <div id="menu-container" class="menu"></div>
+    
+        <!-- Project content container -->
+        <div id="projectContent" class="main"></div>
+    
+        <!-- jQuery template for menu item -->
+        <script id="menu-item-template" type="text/x-jquery-tmpl">
+            <div class="menu-item" data-project="${id}">
+                <i class="${iconClass} icon"></i>
+                <span>${name}</span>
+            </div>
+        </script>
+    
+        <script>
+            $(document).ready(function () {
+                $("#additionalMenuBtn").click(function () {
+                    $("#menu-container").fadeToggle(300);
+                });
+    
+                loadMenuData();
+    
+                $("#menu-container").on("click", ".menu-item", function () {
+                    var projectId = $(this).data("project");
+                    fetchProjectContent(projectId);
+                });
+            });
+    
+            function loadMenuData() {
+                $.getJSON("menuData.json", function (menuData) {
+                    renderMenu(menuData);
+                });
+            }
+    
+            function renderMenu(menuData) {
+                var menuContainer = $("#menu-container");
+                var template = $("#menu-item-template").html(); // Get the template content
+    
+                $.tmpl(template, menuData).appendTo(menuContainer); // Render the menu items using the template
+            }
+    
+            function fetchProjectContent(link) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            $("#projectContent").html(xhr.responseText);
+                        } else {
+                            console.error('Error fetching project content: ' + xhr.status);
+                        }
+                    }
+                };
+                xhr.open('GET', link + '.html', true);
+                xhr.send();
+            }
+            
+        </script>
+   
+    
+    
+</body>
+</html>
+
